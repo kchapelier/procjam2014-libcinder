@@ -30,6 +30,7 @@ class CinderProject09App : public ci::app::App {
     ci::vec2 downPosition;
     ci::vec2 currentPosition;
     bool down;
+    bool makeScreenshot;
     
     float seaLevelIncrement;
     float iSeaLevel;
@@ -46,6 +47,7 @@ void CinderProject09App::setup()
     down = false;
     downPosition = ci::vec2(0);
     currentPosition = ci::vec2(0);
+    makeScreenshot = false;
     
     iSeaLevel = 0.45;
     seaLevelIncrement = 0;
@@ -109,6 +111,10 @@ void CinderProject09App::keyUp( ci::app::KeyEvent event ) {
         distortionIncrement = 0.;
     } else if( event.getCode() == ci::app::KeyEvent::KEY_LEFT ) {
         distortionIncrement = 0.;
+    }
+    
+    if ( event.getChar() == 'p' ) {
+        makeScreenshot = true;
     }
 }
 
@@ -181,7 +187,10 @@ void CinderProject09App::draw()
     ci::gl::ScopedGlslProg shader( glsl );
     ci::gl::draw(triangle);
     
-    //saveImage("black-sea");
+    if (makeScreenshot) {
+        saveImage("black-sea");
+        makeScreenshot = false;
+    }
 }
 
 CINDER_APP( CinderProject09App, ci::app::RendererGl )
